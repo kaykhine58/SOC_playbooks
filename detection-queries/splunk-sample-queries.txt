@@ -1,0 +1,12 @@
+# Suspicious Login Activity
+index=auth sourcetype=linux_secure "Failed password"
+| stats count by user, src, host
+
+# Phishing Email Search
+index=email_logs subject="Invoice" attachment="*.exe"
+| table _time, sender, recipient, subject, attachment
+
+# Malware Hash Detection
+index=edr sourcetype=process_creation
+| search process_hash=*
+| stats count by process_name, process_hash, user
